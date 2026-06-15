@@ -63,17 +63,21 @@ yarn api:dev
 
 ## Scripts
 
-| Command           | What it does                              |
-| ----------------- | ----------------------------------------- |
-| `yarn api:dev`    | Start NestJS in watch mode                |
-| `yarn api:build`  | Production build of the API               |
-| `yarn api:test`   | Run API unit tests                        |
-| `yarn api:e2e`    | Run API end-to-end tests                  |
-| `yarn docker:dev` | Start Postgres, Redis, Adminer containers |
-| `yarn docker:stop`| Stop all containers                       |
-| `yarn lint`       | Lint all projects                         |
-| `yarn lint:fix`   | Lint and auto-fix all projects            |
-| `yarn dep`        | Open Nx project dependency graph          |
+| Command                          | What it does                                    |
+| -------------------------------- | ----------------------------------------------- |
+| `yarn api:dev`                   | Start NestJS in watch mode                      |
+| `yarn api:build`                 | Production build of the API                     |
+| `yarn api:test`                  | Run API unit tests                              |
+| `yarn api:e2e`                   | Run API end-to-end tests                        |
+| `yarn docker:dev`                | Start Postgres, Redis, Adminer containers       |
+| `yarn docker:stop`               | Stop all containers                             |
+| `yarn api:migration:generate <path>` | Generate a new migration from entity diff   |
+| `yarn api:migration:run`         | Apply all pending migrations                    |
+| `yarn api:migration:revert`      | Revert the last applied migration               |
+| `yarn api:seed:run`              | Truncate tables and re-seed with sample data    |
+| `yarn lint`                      | Lint all projects                               |
+| `yarn lint:fix`                  | Lint and auto-fix all projects                  |
+| `yarn dep`                       | Open Nx project dependency graph                |
 
 ## Database
 
@@ -88,3 +92,10 @@ Adminer (web UI) is available at `http://localhost:8080` once Docker is running.
 | Database | `enterprise_todo`  |
 
 Migrations are managed with TypeORM — `synchronize` is always `false`.
+
+**First-time database setup:**
+
+```bash
+yarn api:migration:run   # apply all migrations
+yarn api:seed:run        # seed with sample data
+```
