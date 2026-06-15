@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CqrsModule } from '@nestjs/cqrs';
 import { AppResolver } from './app.resolver';
 import { HealthModule } from '../modules/health/health.module';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { HealthModule } from '../modules/health/health.module';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: false, // NEVER true in production — use migrations
         logging: config.get('PROJECT_DB_DEBUG') === 'true',
+        namingStrategy: new SnakeNamingStrategy(),
       }),
     }),
 
