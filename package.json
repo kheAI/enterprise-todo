@@ -72,6 +72,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@apollo/server": "^5.5.1",
     "@nestjs/apollo": "^13.4.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.4",
@@ -85,7 +86,6 @@
     "@ptc-org/nestjs-query-core": "^9.4.0",
     "@ptc-org/nestjs-query-graphql": "^9.4.0",
     "@ptc-org/nestjs-query-typeorm": "^9.4.0",
-    "apollo-server-express": "^3.13.0",
     "axios": "^1.6.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
