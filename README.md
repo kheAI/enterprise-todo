@@ -1,96 +1,90 @@
-# EnterpriseTodo
+# enterprise-todo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+An enterprise-grade todo application built as a learning project — demonstrating how to migrate from Meteor to a modern NestJS + Next.js monorepo stack.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Stack
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+| Layer     | Technology                                      |
+| --------- | ----------------------------------------------- |
+| Monorepo  | Nx 22                                           |
+| Backend   | NestJS 11, GraphQL (Apollo v5), TypeORM, CQRS   |
+| Frontend  | Next.js 16 (App Router), Tailwind CSS           |
+| Database  | PostgreSQL 15                                   |
+| Cache     | Redis                                           |
+| Auth      | Passport JWT (RS256)                            |
+| Runtime   | Node 20, Yarn 1.x                               |
+| Infra     | Docker Compose (local dev)                      |
 
-## Run tasks
+## Project Structure
 
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```
+enterprise-todo/
+├── apps/
+│   ├── api/          ← NestJS backend (GraphQL at :3333)
+│   ├── api-e2e/      ← API end-to-end tests
+│   ├── web/          ← Next.js frontend (:4200)
+│   └── web-e2e/      ← Frontend end-to-end tests
+├── libs/
+│   └── contracts/    ← Shared TypeScript types (used by api + web)
+├── docker-compose.dev.yml
+└── .env              ← Local environment variables (never commit)
 ```
 
-For example:
+## Prerequisites
 
-```sh
-npx nx build myproject
+- Node 20 (via nvm)
+- Yarn 1.x (`npm install -g yarn`)
+- Docker Desktop
+
+## Getting Started
+
+**1. Install dependencies**
+
+```bash
+yarn install
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+**2. Start Docker infrastructure**
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+```bash
+yarn docker:dev
+# Starts: PostgreSQL :5432 · Redis :6379 · Adminer :8080
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+**3. Create `.env`** at the workspace root — copy the template from the tutorial or see `apps/api/src/app/app.module.ts` for the required variable names.
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+**4. Start the API dev server**
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+```bash
+yarn api:dev
+# API:      http://localhost:3333
+# GraphQL:  http://localhost:3333/graphql
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## Scripts
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+| Command           | What it does                              |
+| ----------------- | ----------------------------------------- |
+| `yarn api:dev`    | Start NestJS in watch mode                |
+| `yarn api:build`  | Production build of the API               |
+| `yarn api:test`   | Run API unit tests                        |
+| `yarn api:e2e`    | Run API end-to-end tests                  |
+| `yarn docker:dev` | Start Postgres, Redis, Adminer containers |
+| `yarn docker:stop`| Stop all containers                       |
+| `yarn lint`       | Lint all projects                         |
+| `yarn lint:fix`   | Lint and auto-fix all projects            |
+| `yarn dep`        | Open Nx project dependency graph          |
 
-## Set up CI!
+## Database
 
-### Step 1
+Adminer (web UI) is available at `http://localhost:8080` once Docker is running.
 
-To connect to Nx Cloud, run the following command:
+| Field    | Value              |
+| -------- | ------------------ |
+| System   | PostgreSQL         |
+| Server   | `postgres`         |
+| Username | `postgres`         |
+| Password | `postgres`         |
+| Database | `enterprise_todo`  |
 
-```sh
-npx nx connect
-```
-
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Migrations are managed with TypeORM — `synchronize` is always `false`.
