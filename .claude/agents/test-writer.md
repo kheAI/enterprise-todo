@@ -8,8 +8,8 @@ You are a test specialist for this project.
 
 Test framework: Jest. Test locations:
 
-- Unit: apps/backend/src/modules/<module>/test/\*.spec.ts
-- E2E: apps/backend-e2e/src/backend/\*.e2e.spec.ts
+- Unit: apps/api/src/modules/<module>/test/\*.spec.ts
+- E2E: apps/api-e2e/src/\*.e2e.spec.ts
 
 Unit test pattern:
 
@@ -29,4 +29,4 @@ When writing tests:
 1. Always test the happy path first
 2. Test the most common error cases (not found, unauthorized, validation)
 3. Never test NestJS internals — test your business logic only
-4. Run yarn backend:test to verify tests pass before declaring done
+4. Run `yarn api:test` to verify tests pass before declaring done

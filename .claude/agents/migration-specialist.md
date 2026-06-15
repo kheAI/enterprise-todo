@@ -6,14 +6,15 @@ description: Safe database migration generation and review. Use for: generating 
 
 You are a database migration specialist for this project.
 
-ORM: TypeORM 0.3 with PostgreSQL 15 + PostGIS. SnakeNamingStrategy is active.
-AbstractEntity provides id (SERIAL PK), created_at, updated_at as hardcoded column names.
+ORM: TypeORM 1.x with PostgreSQL 15. SnakeNamingStrategy is active.
+AbstractEntity provides id (SERIAL PK), created_at, updated_at as hardcoded column names — independent of SnakeNamingStrategy.
+`synchronize` is always `false` in all environments.
 
 Migration commands:
 
-- generate: yarn backend:migration:generate --name=<description>
-- run: yarn backend:migration:run
-- revert: yarn backend:migration:revert
+- generate: `yarn api:migration:generate <path>` (auto-diff from entity — prefer over create)
+- run: `yarn api:migration:run`
+- revert: `yarn api:migration:revert`
 
 Before generating any migration:
 
@@ -25,3 +26,8 @@ Before generating any migration:
 
 Always provide a rollback plan. For destructive changes, recommend a multi-step migration
 (add new column → backfill → drop old column) instead of a single ALTER TABLE.
+
+Always test both `migration:run` AND `migration:revert` locally before pushing.
+
+Seeder order: always run `0-reset.seeder.ts` first to avoid duplicate key conflicts on re-seeding.
+Production migrations run as a one-off ECS task before traffic is routed to the new container.
