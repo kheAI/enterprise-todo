@@ -12,10 +12,10 @@
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint --all --fix",
     "dep": "nx graph",
-    "api:migration:generate": "typeorm-ts-node-commonjs migration:generate -d apps/api/ormconfig.ts",
-    "api:migration:run": "typeorm-ts-node-commonjs migration:run -d apps/api/ormconfig.ts",
-    "api:migration:revert": "typeorm-ts-node-commonjs migration:revert -d apps/api/ormconfig.ts",
-    "api:migration:create": "typeorm-ts-node-commonjs migration:create"
+    "api:migration:generate": "TS_NODE_PROJECT=tsconfig.typeorm.json typeorm-ts-node-commonjs migration:generate -d apps/api/ormconfig.ts",
+    "api:migration:run": "TS_NODE_PROJECT=tsconfig.typeorm.json typeorm-ts-node-commonjs migration:run -d apps/api/ormconfig.ts",
+    "api:migration:revert": "TS_NODE_PROJECT=tsconfig.typeorm.json typeorm-ts-node-commonjs migration:revert -d apps/api/ormconfig.ts",
+    "api:migration:create": "TS_NODE_PROJECT=tsconfig.typeorm.json typeorm-ts-node-commonjs migration:create"
   },
   "private": true,
   "devDependencies": {
