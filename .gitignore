@@ -48,3 +48,10 @@ Thumbs.db
 out
 .env
 .env.local
+
+# AI
+.claude/memory/
+.claude/settings.local.json
+.graphify/
+graphify-out/
+.gitnexus_cache/
