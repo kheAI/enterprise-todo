@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CqrsModule } from '@nestjs/cqrs';
+import { AppResolver } from './app.resolver';
 
 @Module({
   imports: [
@@ -43,5 +44,6 @@ import { CqrsModule } from '@nestjs/cqrs';
     // CQRS: registers CommandBus, QueryBus, EventBus globally
     CqrsModule.forRoot(),
   ],
+  providers: [AppResolver],
 })
 export class AppModule {}
