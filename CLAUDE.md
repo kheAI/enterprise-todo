@@ -74,6 +74,35 @@ PostgreSQL
 
 **All related entities must be registered** — If `TodoEntity` has `@ManyToOne(() => UserEntity)`, then `UserEntity` must be in `AppModule`'s `entities[]` even if there's no `UserModule` yet. Omitting causes `EntityMetadataNotFoundError` at startup.
 
+## AI Tooling
+
+Three tools are configured for token-efficient AI-assisted development on this project:
+
+### RTK — Token Optimizer
+Global proxy that compresses Claude Code tool output (60–90% token savings). Configured at `~/.claude/` — no project setup needed.
+```bash
+rtk gain             # show token savings analytics
+rtk discover         # scan history for missed optimization opportunities
+```
+
+### GitNexus — Code Knowledge Graph
+Indexes the codebase into a graph; exposed as MCP tools (`impact`, `query`, `context`, `detect_changes`, `rename`). Config: `.claude/mcp.json`.
+```bash
+node .gitnexus/run.cjs analyze     # reindex after major changes
+node .gitnexus/run.cjs status      # check index freshness
+```
+First time / after `git clean`: `gitnexus analyze` (requires `gitnexus@1.6.8-rc.38+` on Intel Mac — earlier versions lack `darwin-x64` prebuilt).
+
+### Graphify — Knowledge Graph Visualization
+Builds a queryable graph of code + docs with community detection. Output lives in `graphify-out/` (gitignored).
+```bash
+graphify update .    # incremental reindex after code changes (no API cost)
+graphify .           # full rebuild
+graphify query "<question>"          # scoped subgraph answer
+graphify path "<A>" "<B>"            # shortest path between two concepts
+graphify explain "<concept>"         # focused explanation
+```
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
