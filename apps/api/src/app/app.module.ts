@@ -7,6 +7,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { AppResolver } from './app.resolver';
 import { HealthModule } from '../modules/health/health.module';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { TodoModule } from './modules/todo/todo.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
     CqrsModule.forRoot(),
 
     HealthModule,
+    TodoModule,
   ],
   providers: [AppResolver],
 })
