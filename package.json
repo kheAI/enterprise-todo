@@ -2,7 +2,10 @@
   "name": "@enterprise-todo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "docker:dev": "docker compose -f docker-compose.dev.yml up -d",
+    "docker:stop": "docker compose -f docker-compose.dev.yml down"
+  },
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.8.0",
