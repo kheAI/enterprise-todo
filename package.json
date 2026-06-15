@@ -12,6 +12,7 @@
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint --all --fix",
     "dep": "nx graph",
+    "api:seed:run": "TS_NODE_PROJECT=tsconfig.typeorm.json node -r ts-node/register -r ./scripts/fix-typeorm-deps.cjs ./node_modules/@jorgebodega/typeorm-seeding/dist/cli.js -d apps/api/ormconfig.ts \"apps/api/src/seeders/*.ts\"",
     "api:migration:generate": "TS_NODE_PROJECT=tsconfig.typeorm.json node -r ./scripts/fix-typeorm-deps.cjs ./node_modules/typeorm/cli-ts-node-commonjs.js migration:generate -d apps/api/ormconfig.ts",
     "api:migration:run": "TS_NODE_PROJECT=tsconfig.typeorm.json node -r ./scripts/fix-typeorm-deps.cjs ./node_modules/typeorm/cli-ts-node-commonjs.js migration:run -d apps/api/ormconfig.ts",
     "api:migration:revert": "TS_NODE_PROJECT=tsconfig.typeorm.json node -r ./scripts/fix-typeorm-deps.cjs ./node_modules/typeorm/cli-ts-node-commonjs.js migration:revert -d apps/api/ormconfig.ts",
