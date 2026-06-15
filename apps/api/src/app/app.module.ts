@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CqrsModule } from '@nestjs/cqrs';
 import { AppResolver } from './app.resolver';
+import { HealthModule } from '../modules/health/health.module';
 
 @Module({
   imports: [
@@ -43,6 +44,8 @@ import { AppResolver } from './app.resolver';
 
     // CQRS: registers CommandBus, QueryBus, EventBus globally
     CqrsModule.forRoot(),
+
+    HealthModule,
   ],
   providers: [AppResolver],
 })
