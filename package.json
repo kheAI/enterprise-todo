@@ -74,6 +74,8 @@
     "@ptc-org/nestjs-query-typeorm": "^9.4.0",
     "apollo-server-express": "^3.13.0",
     "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "graphql": "^16.14.2",
     "nestjs-dev-utilities": "^0.0.3",
     "nestjs-typed-cqrs": "^0.0.1",
