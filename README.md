@@ -7,7 +7,7 @@ An enterprise-grade todo application built as a learning project — demonstrati
 | Layer     | Technology                                                        |
 | --------- | ----------------------------------------------------------------- |
 | Monorepo  | Nx 22                                                             |
-| Backend   | NestJS 11, GraphQL (Apollo v5), TypeORM 1.x, CQRS                |
+| Backend   | NestJS 11, Express 5, GraphQL (Apollo v5), TypeORM 1.x, CQRS     |
 | Frontend  | Next.js 16 (App Router), Tailwind CSS                            |
 | Database  | PostgreSQL 15                                                     |
 | Cache     | Redis (Alpine)                                                    |
@@ -22,9 +22,11 @@ An enterprise-grade todo application built as a learning project — demonstrati
 | `nestjs-typed-cqrs`             | Type-safe `CommandBus` / `QueryBus` — no more `any` |
 | `nestjs-dev-utilities`          | `AbstractEntity` base class (id, timestamps, soft-delete) |
 | `@ptc-org/nestjs-query-core`    | `Query<T>` filter/sort/paging types                 |
+| `@ptc-org/nestjs-query-graphql` | `@FilterableField`, `QueryArgsType`, `ConnectionType` (cursor pagination) |
 | `@ptc-org/nestjs-query-typeorm` | `TypeOrmQueryService` + `FilterQueryBuilder`        |
 | `typeorm-naming-strategies`     | Snake-case column names automatically               |
 | `@jorgebodega/typeorm-seeding`  | Database seeders                                     |
+| `@as-integrations/express5`     | Apollo Server v5 → Express 5 adapter (required — the Express 4 adapter is incompatible) |
 
 ---
 
@@ -233,3 +235,7 @@ This project uses Webpack. At runtime everything is compiled into `main.js` — 
 **All related entities must be registered, even without a feature module**
 
 `TodoEntity` has `@ManyToOne(() => UserEntity)`. Even if there is no `UserModule` yet, `UserEntity` must appear in `AppModule`'s `entities[]`. Omitting it causes `EntityMetadataNotFoundError` at startup.
+
+**Apollo Sandbox: name mutations that return `Boolean`**
+
+Anonymous mutations returning a scalar (e.g. `mutation { deleteTodo(id: 1) }`) trigger a spurious "syntax error: invalid number" in Apollo Studio Sandbox. The API itself is correct — confirm with curl. Fix: name the operation: `mutation DeleteTodo { deleteTodo(id: 1) }`.
