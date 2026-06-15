@@ -64,12 +64,7 @@ Service  extends TypeOrmQueryService<Entity>
 PostgreSQL
 ```
 
-**Rules:**
-- Handlers are one-liners. All business logic in the service.
-- `CqrsModule.forRoot()` only in `AppModule`. Feature modules do NOT import `CqrsModule` — buses are global.
-- Service methods are entity-qualified (`findOneTodo`, `countTodo`) to avoid clashing with `TypeOrmQueryService` interface.
-- `synchronize` is always `false`. Use migrations.
-- Feature branches → squash merge to main. Conventional commits via `yarn cz`.
+**Git:** Feature branches → squash merge to main. Conventional commits via `yarn cz`.
 
 ## Gotchas
 
