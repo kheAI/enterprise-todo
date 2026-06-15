@@ -59,10 +59,14 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@nestjs/apollo": "^13.4.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/graphql": "^13.4.2",
     "@nestjs/platform-express": "^11.0.0",
+    "apollo-server-express": "^3.13.0",
     "axios": "^1.6.0",
+    "graphql": "^16.14.2",
     "next": "~16.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
