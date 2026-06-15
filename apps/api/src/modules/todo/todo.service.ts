@@ -5,8 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InjectQueryService, QueryService } from '@ptc-org/nestjs-query-core';
-import { FilterQueryBuilder } from '@ptc-org/nestjs-query-typeorm/src/query';
+import { TypeOrmQueryService } from '@ptc-org/nestjs-query-typeorm';
 import { CqrsCommandFunc, CqrsQueryFunc } from 'nestjs-typed-cqrs';
 import { Repository } from 'typeorm';
 
@@ -21,42 +20,36 @@ import {
 import { TodoEntity } from './todo.entity';
 
 @Injectable()
-export class TodoService {
-  private readonly filterQueryBuilder: FilterQueryBuilder<TodoEntity>;
-
+export class TodoService extends TypeOrmQueryService<TodoEntity> {
   constructor(
     @InjectRepository(TodoEntity)
-    private readonly repo: Repository<TodoEntity>,
-    @InjectQueryService(TodoEntity)
-    private readonly queryService: QueryService<TodoEntity>,
+    repo: Repository<TodoEntity>, // no `private readonly` — parent sets this.repo
   ) {
-    this.filterQueryBuilder = new FilterQueryBuilder<TodoEntity>(this.repo);
+    super(repo); // sets this.repo and this.filterQueryBuilder via TypeOrmQueryService
   }
 
   // Find one record
-  findOne: CqrsQueryFunc<FindOneTodoQuery, FindOneTodoQuery['args']> = async ({
-    query,
-    options,
-  }) => {
-    const nullable = options?.nullable ?? true;
+  findOneTodo: CqrsQueryFunc<FindOneTodoQuery, FindOneTodoQuery['args']> =
+    async ({ query, options }) => {
+      const nullable = options?.nullable ?? true;
 
-    try {
-      const builder = this.filterQueryBuilder.select(query);
-      const result = await builder.getOne();
+      try {
+        const builder = this.filterQueryBuilder.select(query);
+        const result = await builder.getOne();
 
-      if (!nullable && !result) {
-        throw new Error('Todo not found');
+        if (!nullable && !result) {
+          throw new Error('Todo not found');
+        }
+
+        return { success: true, data: result ?? undefined };
+      } catch (e) {
+        throw new BadRequestException(e.message);
       }
-
-      return { success: true, data: result ?? undefined };
-    } catch (e) {
-      throw new BadRequestException(e.message);
-    }
-  };
+    };
 
   // Find many records (for paginated list queries)
-  findMany: CqrsQueryFunc<FindManyTodoQuery, FindManyTodoQuery['args']> =
-    async ({ query, options }) => {
+  findManyTodo: CqrsQueryFunc<FindManyTodoQuery, FindManyTodoQuery['args']> =
+    async ({ query }) => {
       try {
         const builder = this.filterQueryBuilder.select(query);
         const results = await builder.getMany();
@@ -67,7 +60,7 @@ export class TodoService {
     };
 
   // Count records (needed for cursor pagination's totalCount)
-  count: CqrsQueryFunc<CountTodoQuery, CountTodoQuery['args']> = async ({
+  countTodo: CqrsQueryFunc<CountTodoQuery, CountTodoQuery['args']> = async ({
     query,
   }) => {
     try {
@@ -81,7 +74,7 @@ export class TodoService {
   };
 
   // Create one record
-  createOne: CqrsCommandFunc<
+  createOneTodo: CqrsCommandFunc<
     CreateOneTodoCommand,
     CreateOneTodoCommand['args']
   > = async ({ input }) => {
@@ -103,10 +96,10 @@ export class TodoService {
   };
 
   // Update one record
-  updateOne: CqrsCommandFunc<
+  updateOneTodo: CqrsCommandFunc<
     UpdateOneTodoCommand,
     UpdateOneTodoCommand['args']
-  > = async ({ query, input, options }) => {
+  > = async ({ query, input }) => {
     try {
       const builder = this.filterQueryBuilder.select(query);
       const before = await builder.getOne();
@@ -119,8 +112,8 @@ export class TodoService {
     }
   };
 
-  // Delete one record (soft or hard depending on entity)
-  deleteOne: CqrsCommandFunc<
+  // Delete one record
+  deleteOneTodo: CqrsCommandFunc<
     DeleteOneTodoCommand,
     DeleteOneTodoCommand['args']
   > = async ({ input: id }) => {

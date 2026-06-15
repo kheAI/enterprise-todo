@@ -1,8 +1,6 @@
 // apps/api/src/modules/todo/todo.module.ts
 import { Module } from '@nestjs/common';
-import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { NestjsQueryTypeOrmModule } from '@ptc-org/nestjs-query-typeorm';
 
 import { TodoEntity } from './todo.entity';
 import { TodoResolver } from './todo.resolver';
@@ -15,9 +13,7 @@ import {
 
 @Module({
   imports: [
-    CqrsModule,
     TypeOrmModule.forFeature([TodoEntity]), // Repository<TodoEntity> injectable in this module
-    NestjsQueryTypeOrmModule.forFeature([TodoEntity]), // QueryService<TodoEntity> injectable in this module
   ],
   providers: [
     TodoResolver,

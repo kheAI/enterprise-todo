@@ -26,7 +26,7 @@ export class FindOneTodoQueryHandler
   async execute(
     query: FindOneTodoQuery,
   ): Promise<QueryResult<FindOneTodoQuery>> {
-    return this.service.findOne(query.args); // one line — delegate to service
+    return this.service.findOneTodo(query.args);
   }
 }
 
@@ -38,7 +38,7 @@ export class FindManyTodoQueryHandler
   async execute(
     query: FindManyTodoQuery,
   ): Promise<QueryResult<FindManyTodoQuery>> {
-    return this.service.findMany(query.args);
+    return this.service.findManyTodo(query.args);
   }
 }
 
@@ -48,7 +48,7 @@ export class CountTodoQueryHandler
 {
   constructor(readonly service: TodoService) {}
   async execute(query: CountTodoQuery): Promise<QueryResult<CountTodoQuery>> {
-    return this.service.count(query.args);
+    return this.service.countTodo(query.args);
   }
 }
 
@@ -62,7 +62,7 @@ export class CreateOneTodoCommandHandler
   async execute(
     command: CreateOneTodoCommand,
   ): Promise<CommandResult<CreateOneTodoCommand>> {
-    return this.service.createOne(command.args);
+    return this.service.createOneTodo(command.args);
   }
 }
 
@@ -74,7 +74,7 @@ export class UpdateOneTodoCommandHandler
   async execute(
     command: UpdateOneTodoCommand,
   ): Promise<CommandResult<UpdateOneTodoCommand>> {
-    return this.service.updateOne(command.args);
+    return this.service.updateOneTodo(command.args);
   }
 }
 
@@ -86,6 +86,6 @@ export class DeleteOneTodoCommandHandler
   async execute(
     command: DeleteOneTodoCommand,
   ): Promise<CommandResult<DeleteOneTodoCommand>> {
-    return this.service.deleteOne(command.args);
+    return this.service.deleteOneTodo(command.args);
   }
 }

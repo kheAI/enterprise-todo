@@ -7,7 +7,9 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { AppResolver } from './app.resolver';
 import { HealthModule } from '../modules/health/health.module';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { TodoModule } from './modules/todo/todo.module';
+import { TodoModule } from '../modules/todo/todo.module';
+import { TodoEntity } from '../modules/todo/todo.entity';
+import { UserEntity } from '../modules/user/user.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { TodoModule } from './modules/todo/todo.module';
         username: config.get('PROJECT_DB_USERNAME'),
         password: config.get('PROJECT_DB_PASSWORD'),
         database: config.get('PROJECT_DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [TodoEntity, UserEntity],
         synchronize: false, // NEVER true in production — use migrations
         logging: config.get('PROJECT_DB_DEBUG') === 'true',
         namingStrategy: new SnakeNamingStrategy(),
