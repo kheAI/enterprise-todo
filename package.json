@@ -78,6 +78,7 @@
   "dependencies": {
     "@apollo/server": "^5.5.1",
     "@as-integrations/express5": "^1.1.2",
+    "@jorgebodega/typeorm-seeding": "^7.1.0",
     "@nestjs/apollo": "^13.4.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.4",
