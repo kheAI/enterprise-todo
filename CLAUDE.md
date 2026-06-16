@@ -80,6 +80,8 @@ PostgreSQL
 
 **`@nx/next` uses `dev` target, not `serve`** — `npx nx serve web` fails. Use `yarn web:dev` (`nx dev web`). The `@nx/next` plugin registers `devTargetName: "dev"` in `nx.json`.
 
+**`graphql` must be pinned to `@16` on Node 20** — `graphql@17` requires Node 22. Installing without a version pin pulls v17 and breaks the build. Always: `yarn add graphql@16`. Same issue with `@graphql-codegen/cli` — pin to `@5` (`@graphql-codegen/cli@6` pulls `listr2@10` which also requires Node 22).
+
 ## AI Tooling
 
 Three tools are configured for token-efficient AI-assisted development on this project:
