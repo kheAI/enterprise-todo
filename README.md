@@ -8,7 +8,7 @@ This repo is also a **production-ready fullstack scaffold** covering every patte
 
 ## Tutorial Series
 
-This codebase is built step-by-step across 21 tutorials. Each part introduces one layer of the stack with working code and Meteor migration context.
+This codebase is built step-by-step across 24 tutorials. Each part introduces one layer of the stack with working code and Meteor migration context.
 
 | Part | Title                               | Key concepts                                                          |
 | ---- | ----------------------------------- | --------------------------------------------------------------------- |
