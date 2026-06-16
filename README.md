@@ -2,6 +2,40 @@
 
 An enterprise-grade todo application built as a learning project — demonstrating how to migrate from Meteor to a modern NestJS + Next.js monorepo stack.
 
+This repo is also a **production-ready fullstack scaffold** that covers every pattern from the company's reference backend (`intelligence-platform-backend`), plus a Next.js frontend and AI-assisted dev workflow.
+
+---
+
+## Tutorial Series
+
+This codebase is built step-by-step across 21 tutorials. Each part introduces one layer of the stack with working code and Meteor migration context.
+
+| Part | Title | Key concepts |
+| ---- | ----- | ------------ |
+| 6101 | Meteor → NestJS: The Migration Case | Monorepo setup, Nx 22, project structure |
+| 6102 | Environment & Docker Setup | Docker Compose, `.env`, Adminer |
+| 6103 | TypeScript & NestJS DI | Modules, providers, DI fundamentals |
+| 6104 | TypeORM Entities & Migrations | Entities, `AbstractEntity`, migrations |
+| 6105 | CQRS Pattern | Commands, queries, handlers, typed buses |
+| 6106 | GraphQL API + Next.js Frontend | Apollo Server v5, resolvers, Apollo Client v4 |
+| 6107 | Authentication — Guards & Security | JWT RS256, `AuthJwtGuard`, `@CurrentUser()`, bcrypt |
+| 6108 | Case Study 1: Tag Module | Full 9-step build walkthrough |
+| 6109 | Case Study 2: Todo Module | FK relations, auth, DataLoader, N+1 prevention |
+| 6110 | Testing — Unit & E2E | Jest, real test DB, 3-spec-file pattern |
+| 6111 | Queues & Real-Time | Bull, Redis PubSub, GraphQL subscriptions |
+| 6112 | Git Workflow, CI/CD & Deployment | Conventional commits, Husky, GitHub Actions, Docker |
+| 6113 | Multi-Tenancy & RBAC | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth |
+| 6114 | Claude Code AI Development Layer | `.claude/`, GitNexus, Graphify, RTK |
+| 6115 | GitHub MCP & Project Management | GitHub MCP, ClickUp/Slack integration |
+| 6116 | Memory & Knowledge Graphs | Graphify, gitnexus, code intelligence |
+| 6117 | Tech Lead SDLC Daily Workflow | PR flow, code review, release checklist |
+| 6118 | Production Hardening | Joi env validation, typed config, Helmet, throttling, ExceptionFilter |
+| 6119 | Extended Auth | Email service, secured tokens, password reset, 2FA TOTP |
+| 6120 | Advanced Data Patterns | Column transformers, audit columns, running numbers, `libs/core` |
+| 6121 | Dual-App Monorepo | `portal-api`, `RequestPlatformInterceptor`, platform JWT claim |
+
+---
+
 ## Stack
 
 | Layer     | Technology                                                        |
@@ -35,22 +69,45 @@ An enterprise-grade todo application built as a learning project — demonstrati
 ```
 enterprise-todo/
 ├── apps/
-│   ├── api/                    ← NestJS backend (GraphQL at :3333)
+│   ├── api/                    ← NestJS user API (GraphQL at :3333)
 │   │   └── src/
 │   │       ├── app/            ← Root module, bootstrap
+│   │       ├── config/         ← Joi validation schema, typed AppConfig
+│   │       ├── filters/        ← Global AllExceptionsFilter
+│   │       ├── interceptors/   ← AuditInterceptor, UserContext
+│   │       ├── subscribers/    ← AuditSubscriber (createdBy/updatedBy)
+│   │       ├── helpers/        ← Column transformers (LowerCase, Slug, UpperCase)
 │   │       ├── modules/
+│   │       │   ├── auth/       ← JWT RS256, AuthJwtGuard, @CurrentUser()
+│   │       │   ├── email/      ← Nodemailer service + Bull queue processor
 │   │       │   ├── health/     ← Health-check resolver
-│   │       │   ├── todo/       ← Todo feature (CQRS)
-│   │       │   └── user/       ← User entity (auth in Part 07)
+│   │       │   ├── permission/ ← PermissionEntity (slug-based ACL)
+│   │       │   ├── role/       ← RoleEntity (ManyToMany permissions)
+│   │       │   ├── running-number/ ← Pessimistic-lock sequence service
+│   │       │   ├── secured-token/  ← Single-use tokens (password reset, email verify)
+│   │       │   ├── tag/        ← Tag feature (CQRS)
+│   │       │   ├── todo/       ← Todo feature (CQRS, DataLoader)
+│   │       │   └── user/       ← User entity, 2FA, profile
+│   │       ├── shared/
+│   │       │   └── guards/     ← ACPermissionGuard, @UseACGuard(), @AllowGuest()
 │   │       ├── migrations/     ← TypeORM migration files
 │   │       └── seeders/        ← Sample data seeders
 │   ├── api-e2e/                ← API end-to-end tests
+│   ├── portal-api/             ← NestJS admin portal (GraphQL at :3334)
+│   │   └── src/
+│   │       ├── app/            ← Portal root module, bootstrap
+│   │       └── modules/
+│   │           ├── portal-auth/ ← PortalJwtStrategy, PortalAuthJwtGuard
+│   │           └── portal-health/
 │   ├── web/                    ← Next.js frontend (:3000)
 │   └── web-e2e/                ← Frontend end-to-end tests
 ├── libs/
-│   └── contracts/              ← Shared TypeScript types (api + web)
+│   ├── contracts/              ← Shared TypeScript types (api + portal-api + web)
+│   └── core/                   ← Shared config: Joi schema, AppConfig, constants,
+│                                  RequestPlatformInterceptor, CoreConfigModule
 ├── scripts/                    ← Build utility scripts
 ├── docker-compose.dev.yml
+├── docker-compose.dev.arm.yml  ← Apple Silicon (linux/arm64 images)
 └── .env                        ← Local environment variables (never commit)
 ```
 
@@ -119,6 +176,14 @@ yarn web:dev
 # Web: http://localhost:3000
 ```
 
+**9. (Optional) Start the admin portal API**
+
+```bash
+yarn portal:dev
+# Portal API:      http://localhost:3334
+# Portal GraphQL:  http://localhost:3334/graphql
+```
+
 ---
 
 ## Environment Variables
@@ -171,6 +236,16 @@ WEB_URL=http://localhost:3000
 # ── Two-Factor Auth ───────────────────────────────────────────
 # Dev/test bypass only — NEVER set in staging or production
 TWOFA_BYPASS_PASSWORD=
+
+# ── Portal API ────────────────────────────────────────────────
+PROJECT_PORTAL_PORT=3334
+
+# ── Admin JWT (RS256) — portal-api only, separate key pair ────
+# Generate: openssl genrsa 4096 | openssl pkcs8 -topk8 -nocrypt
+# NEVER share with the user API key pair
+ADMIN_JWT_PRIVATE_KEY=
+ADMIN_JWT_PUBLIC_KEY=
+ADMIN_JWT_EXPIRATION_TIME=8h
 ```
 
 ---
@@ -179,24 +254,27 @@ TWOFA_BYPASS_PASSWORD=
 
 | Command                              | What it does                                    |
 | ------------------------------------ | ----------------------------------------------- |
-| `yarn api:dev`                       | Start NestJS in watch mode                      |
-| `yarn api:build`                     | Production build of the API                     |
-| `yarn api:test`                      | Run API unit tests                              |
-| `yarn api:e2e`                       | Run API end-to-end tests                        |
-| `yarn web:dev`                       | Start Next.js frontend in watch mode            |
-| `yarn codegen`                       | Generate TypeScript types from GraphQL schema   |
-| `yarn format`                        | Run Prettier across all files                   |
-| `yarn docker:dev`                    | Start Postgres, Redis, Adminer (Intel/Linux)    |
-| `yarn docker:dev:arm`                | Start Postgres, Redis, Adminer (Apple Silicon)  |
-| `yarn docker:stop`                   | Stop all containers                             |
-| `yarn api:migration:generate <path>` | Generate a new migration from entity diff       |
-| `yarn api:migration:run`             | Apply all pending migrations                    |
-| `yarn api:migration:revert`          | Revert the last applied migration               |
-| `yarn api:seed:run`                  | Truncate tables and re-seed with sample data    |
-| `yarn lint`                          | Lint all projects                               |
-| `yarn lint:fix`                      | Lint and auto-fix all projects                  |
-| `yarn dep`                           | Open Nx project dependency graph                |
-| `yarn cz`                            | Commit using Commitizen (conventional commits)  |
+| `yarn api:dev`                       | Start user API in watch mode (:3333)            |
+| `yarn api:build`                     | Production build of the user API               |
+| `yarn api:test`                      | Run user API unit tests                        |
+| `yarn api:e2e`                       | Run user API end-to-end tests                  |
+| `yarn portal:dev`                    | Start admin portal API in watch mode (:3334)   |
+| `yarn portal:build`                  | Production build of the portal API             |
+| `yarn portal:test`                   | Run portal API unit tests                      |
+| `yarn web:dev`                       | Start Next.js frontend in watch mode (:3000)   |
+| `yarn codegen`                       | Generate TypeScript types from GraphQL schema  |
+| `yarn format`                        | Run Prettier across all files                  |
+| `yarn docker:dev`                    | Start Postgres, Redis, Adminer (Intel/Linux)   |
+| `yarn docker:dev:arm`                | Start Postgres, Redis, Adminer (Apple Silicon) |
+| `yarn docker:stop`                   | Stop all containers                            |
+| `yarn api:migration:generate <path>` | Generate a migration from entity diff          |
+| `yarn api:migration:run`             | Apply all pending migrations                   |
+| `yarn api:migration:revert`          | Revert the last applied migration              |
+| `yarn api:seed:run`                  | Truncate tables and re-seed with sample data   |
+| `yarn lint`                          | Lint all projects                              |
+| `yarn lint:fix`                      | Lint and auto-fix all projects                 |
+| `yarn dep`                           | Open Nx project dependency graph               |
+| `yarn cz`                            | Commit using Commitizen (conventional commits) |
 
 ---
 
@@ -218,31 +296,69 @@ Migrations are managed with TypeORM — `synchronize` is always `false` in all e
 
 ## Architecture
 
-Every feature module follows the **9-step CQRS pattern**:
+### Dual-App Monorepo
+
+```
+Internet
+   ├─ :3333  apps/api         User-facing API  (AuthJwtStrategy — user RS256 key pair)
+   ├─ :3334  apps/portal-api  Admin portal API (PortalJwtStrategy — admin RS256 key pair)
+   └─ :3000  apps/web         Next.js frontend
+
+libs/core       → Joi schema, typed AppConfig, constants, RequestPlatformInterceptor
+libs/contracts  → Shared TypeScript types across all apps
+```
+
+`RequestPlatformInterceptor` enforces that a user JWT cannot be used on the portal API and vice versa — structural enforcement at the interceptor layer, not just guard logic.
+
+### 9-Step CQRS Pattern
+
+Every feature module follows:
 
 ```
 Entity → Constants → DTOs → CQRS Inputs → CQRS Handlers →
 CQRS Index → Service → Resolver → Module
 ```
 
-The service layer:
+### Request Lifecycle (user API)
 
 ```
-GraphQL Resolver
-    │  dispatches via CommandBus / QueryBus
+GraphQL Request
+    │
+    ▼
+AuthJwtGuard              verifies RS256 JWT signature, rejects expired/invalid
+    │
+    ▼
+RequestPlatformInterceptor  rejects portal tokens (platform: 'portal') with 403
+    │
+    ▼
+TenantGuard               extracts tenantId from JWT → TenantContext (REQUEST scope)
+    │
+    ▼
+ACPermissionGuard         validates user.status === ACTIVE + checks permission slugs
+    │
+    ▼
+Resolver method           @CurrentUser() injects user, CommandBus dispatches
+    │
     ▼
 Handler  (one line: calls service method)
     │
     ▼
 Service  extends TypeOrmQueryService<Entity>
-    │  uses this.filterQueryBuilder / this.repo
+    │
     ▼
-PostgreSQL
+@Authorize decorator      nestjs-query merges tenantId filter at query builder level
+    │
+    ▼
+PostgreSQL                WHERE tenant_id = $1 AND ... (tenant isolation guaranteed)
 ```
 
+### Key Rules
+
 - **Handlers are always one-liners.** All business logic lives in the service.
-- **`CqrsModule.forRoot()`** is called only in `AppModule`. Feature modules do not import `CqrsModule` — the buses are global.
-- **Service methods are entity-qualified** (`findOneTodo`, `countTodo`, etc.) to avoid clashing with `TypeOrmQueryService`'s own interface (`count`, `createOne`, etc.).
+- **`CqrsModule.forRoot()`** is called only in `AppModule`. Feature modules do not import `CqrsModule`.
+- **Service methods are entity-qualified** (`findOneTodo`, `countTodo`) to avoid clashing with `TypeOrmQueryService`'s interface.
+- **`ACPermissionGuard` + `@UseACGuard('MODULE', ['slug'])`** on all protected resolvers — not `RolesGuard`. Permission slugs are seeded into `PermissionEntity`.
+- **`PortalJwtStrategy`** lives only in `apps/portal-api` — never register it in `apps/api`.
 
 ---
 
