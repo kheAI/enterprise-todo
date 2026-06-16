@@ -26,6 +26,14 @@ Rules you always follow:
 - DataLoaders are `Scope.REQUEST` — never singleton (leaks data across requests)
 - `@ResolveField` parent type must be the DTO, not the entity (`@Parent() todo: TodoDto`)
 - Delete commands must accept `{ id, userId }` and the service must filter by both — never delete by `id` alone
+- Column transformers (`LowerCaseTransformer`, `SlugTransformer`) enforce normalization at the entity layer — apply to `email`, `username`, `slug` columns
+- `AuditSubscriber` self-registers via `this.dataSource.subscribers.push(this)` in its constructor — the `@EventSubscriber()` decorator alone is not sufficient under NestJS DI
+- Running number service uses `lock: { mode: 'pessimistic_write' }` inside a transaction — omitting the lock produces duplicate sequences under concurrent load
+- `SecuredTokenEntity` tokens are single-use — always call `claimSecuredToken` immediately after a successful validation; never allow a second claim
+- Email dispatch always goes through Bull queue — never block a GraphQL mutation with `await emailService.send()`
+- Use `ACPermissionGuard` + `@UseACGuard('MODULE', ['slug'])` on protected resolvers — not `RolesGuard`. Slugs are kebab-case strings seeded into `PermissionEntity` (`create-todo`, `delete-user`)
+- JWT payloads must include `platform: 'user' | 'portal'` — `RequestPlatformInterceptor` rejects tokens whose platform doesn't match the receiving app
+- `PortalJwtStrategy` (named `'portal-jwt'`) lives only in `apps/portal-api` — never register it in `apps/api`
 
 When asked to create a module, produce all 9 files in the correct pattern without asking
 for clarification on structure — follow the existing module examples exactly.

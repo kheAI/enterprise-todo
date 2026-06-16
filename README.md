@@ -157,6 +157,20 @@ JWT_PRIVATE_KEY=
 JWT_PUBLIC_KEY=
 JWT_REFRESH_PRIVATE_KEY=
 JWT_REFRESH_PUBLIC_KEY=
+
+# ── Email (SMTP) ──────────────────────────────────────────────
+# Local dev: use Mailpit (docker-compose adds it on :1025 / UI :8025)
+SMTP_HOST=localhost
+SMTP_PORT=1025
+SMTP_USER=
+SMTP_PASS=
+
+# ── Frontend ──────────────────────────────────────────────────
+WEB_URL=http://localhost:3000
+
+# ── Two-Factor Auth ───────────────────────────────────────────
+# Dev/test bypass only — NEVER set in staging or production
+TWOFA_BYPASS_PASSWORD=
 ```
 
 ---
@@ -263,3 +277,15 @@ This project uses Tailwind v4 (required by shadcn v4 `base-nova` style). Key dif
 **`@nx/next` uses `dev` target, not `serve`**
 
 Running `npx nx serve web` fails — the `@nx/next` plugin registers the target as `dev`. Use `yarn web:dev` or `npx nx dev web`.
+
+**Helmet blocks GraphQL sandbox in dev**
+
+`app.use(helmet())` blocks Apollo Sandbox's inline scripts via CSP. Fix: disable CSP in non-production environments:
+
+```ts
+app.use(helmet({ contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false }));
+```
+
+**`@SkipThrottle()` on health and internal resolvers**
+
+`ThrottlerGuard` applied globally will rate-limit load balancer health checks in production. Add `@SkipThrottle()` to `HealthResolver` and any other internal-only resolver that runs on every heartbeat.

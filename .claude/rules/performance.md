@@ -9,3 +9,4 @@
 - Use `graphql-depth-limit` (max 7) and query complexity guard (max 50) in production.
 - Redis-backed `RedisPubSub` for subscriptions — never in-process PubSub (breaks multi-instance).
 - Abstract external service calls (S3, TTS, LLM) behind interfaces — never embed SDK calls in business logic.
+- Running number service must use `lock: { mode: 'pessimistic_write' }` inside a transaction — concurrent inserts without the lock produce duplicate sequence numbers under load.

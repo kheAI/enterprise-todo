@@ -82,6 +82,14 @@ PostgreSQL
 
 **`graphql` must be pinned to `@16` on Node 20** — `graphql@17` requires Node 22. Installing without a version pin pulls v17 and breaks the build. Always: `yarn add graphql@16`. Same issue with `@graphql-codegen/cli` — pin to `@5` (`@graphql-codegen/cli@6` pulls `listr2@10` which also requires Node 22).
 
+**Helmet blocks GraphQL sandbox in dev** — `app.use(helmet())` blocks Apollo Sandbox's inline scripts. Use `helmet({ contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false })` so the sandbox works locally while full CSP is enforced in production.
+
+**`@SkipThrottle()` on health and internal resolvers** — `ThrottlerGuard` applied globally will rate-limit load balancer health checks in production. Add `@SkipThrottle()` to `HealthResolver` and any other internal-only resolver that runs on every heartbeat.
+
+**`PortalJwtStrategy` must NOT be registered in `apps/api`** — registering both strategies in the same app defeats platform separation. `PortalJwtStrategy` (named `'portal-jwt'`) belongs exclusively in `apps/portal-api`. If it leaks into `apps/api`, portal tokens can authenticate against user endpoints.
+
+**JWT `platform` claim is required** — `AccessTokenFactory` stamps `platform: 'user'`; `PortalAccessTokenFactory` stamps `platform: 'portal'`. `RequestPlatformInterceptor` rejects any token whose `platform` doesn't match the receiving app with a 403.
+
 ## AI Tooling
 
 Three tools are configured for token-efficient AI-assisted development on this project:
