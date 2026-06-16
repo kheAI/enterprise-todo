@@ -1,7 +1,7 @@
 // apps/web/src/app/providers.tsx
 'use client';
 
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
 import { apolloClient } from '../lib/apollo-client';
 
 export function Providers({ children }: { children: React.ReactNode }) {
