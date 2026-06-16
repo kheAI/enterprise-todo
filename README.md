@@ -2,7 +2,7 @@
 
 An enterprise-grade todo application built as a learning project — demonstrating how to migrate from Meteor to a modern NestJS + Next.js monorepo stack.
 
-This repo is also a **production-ready fullstack scaffold** that covers every pattern from the company's reference backend (`intelligence-platform-backend`), plus a Next.js frontend and AI-assisted dev workflow.
+This repo is also a **production-ready fullstack scaffold**, plus a Next.js frontend and AI-assisted dev workflow.
 
 ---
 
@@ -10,56 +10,56 @@ This repo is also a **production-ready fullstack scaffold** that covers every pa
 
 This codebase is built step-by-step across 21 tutorials. Each part introduces one layer of the stack with working code and Meteor migration context.
 
-| Part | Title | Key concepts |
-| ---- | ----- | ------------ |
-| 6101 | Meteor → NestJS: The Migration Case | Monorepo setup, Nx 22, project structure |
-| 6102 | Environment & Docker Setup | Docker Compose, `.env`, Adminer |
-| 6103 | TypeScript & NestJS DI | Modules, providers, DI fundamentals |
-| 6104 | TypeORM Entities & Migrations | Entities, `AbstractEntity`, migrations |
-| 6105 | CQRS Pattern | Commands, queries, handlers, typed buses |
-| 6106 | GraphQL API + Next.js Frontend | Apollo Server v5, resolvers, Apollo Client v4 |
-| 6107 | Authentication — Guards & Security | JWT RS256, `AuthJwtGuard`, `@CurrentUser()`, bcrypt |
-| 6108 | Case Study 1: Tag Module | Full 9-step build walkthrough |
-| 6109 | Case Study 2: Todo Module | FK relations, auth, DataLoader, N+1 prevention |
-| 6110 | Testing — Unit & E2E | Jest, real test DB, 3-spec-file pattern |
-| 6111 | Queues & Real-Time | Bull, Redis PubSub, GraphQL subscriptions |
-| 6112 | Git Workflow, CI/CD & Deployment | Conventional commits, Husky, GitHub Actions, Docker |
-| 6113 | Multi-Tenancy & RBAC | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth |
-| 6114 | Claude Code AI Development Layer | `.claude/`, GitNexus, Graphify, RTK |
-| 6115 | GitHub MCP & Project Management | GitHub MCP, ClickUp/Slack integration |
-| 6116 | Memory & Knowledge Graphs | Graphify, gitnexus, code intelligence |
-| 6117 | Tech Lead SDLC Daily Workflow | PR flow, code review, release checklist |
-| 6118 | Production Hardening | Joi env validation, typed config, Helmet, throttling, ExceptionFilter |
-| 6119 | Extended Auth | Email service, secured tokens, password reset, 2FA TOTP |
-| 6120 | Advanced Data Patterns | Column transformers, audit columns, running numbers, `libs/core` |
-| 6121 | Dual-App Monorepo | `portal-api`, `RequestPlatformInterceptor`, platform JWT claim |
+| Part | Title                               | Key concepts                                                          |
+| ---- | ----------------------------------- | --------------------------------------------------------------------- |
+| 6101 | Meteor → NestJS: The Migration Case | Monorepo setup, Nx 22, project structure                              |
+| 6102 | Environment & Docker Setup          | Docker Compose, `.env`, Adminer                                       |
+| 6103 | TypeScript & NestJS DI              | Modules, providers, DI fundamentals                                   |
+| 6104 | TypeORM Entities & Migrations       | Entities, `AbstractEntity`, migrations                                |
+| 6105 | CQRS Pattern                        | Commands, queries, handlers, typed buses                              |
+| 6106 | GraphQL API + Next.js Frontend      | Apollo Server v5, resolvers, Apollo Client v4                         |
+| 6107 | Authentication — Guards & Security  | JWT RS256, `AuthJwtGuard`, `@CurrentUser()`, bcrypt                   |
+| 6108 | Case Study 1: Tag Module            | Full 9-step build walkthrough                                         |
+| 6109 | Case Study 2: Todo Module           | FK relations, auth, DataLoader, N+1 prevention                        |
+| 6110 | Testing — Unit & E2E                | Jest, real test DB, 3-spec-file pattern                               |
+| 6111 | Queues & Real-Time                  | Bull, Redis PubSub, GraphQL subscriptions                             |
+| 6112 | Git Workflow, CI/CD & Deployment    | Conventional commits, Husky, GitHub Actions, Docker                   |
+| 6113 | Multi-Tenancy & RBAC                | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth             |
+| 6114 | Claude Code AI Development Layer    | `.claude/`, GitNexus, Graphify, RTK                                   |
+| 6115 | GitHub MCP & Project Management     | GitHub MCP, ClickUp/Slack integration                                 |
+| 6116 | Memory & Knowledge Graphs           | Graphify, gitnexus, code intelligence                                 |
+| 6117 | Tech Lead SDLC Daily Workflow       | PR flow, code review, release checklist                               |
+| 6118 | Production Hardening                | Joi env validation, typed config, Helmet, throttling, ExceptionFilter |
+| 6119 | Extended Auth                       | Email service, secured tokens, password reset, 2FA TOTP               |
+| 6120 | Advanced Data Patterns              | Column transformers, audit columns, running numbers, `libs/core`      |
+| 6121 | Dual-App Monorepo                   | `portal-api`, `RequestPlatformInterceptor`, platform JWT claim        |
 
 ---
 
 ## Stack
 
-| Layer     | Technology                                                        |
-| --------- | ----------------------------------------------------------------- |
-| Monorepo  | Nx 22                                                             |
-| Backend   | NestJS 11, Express 5, GraphQL (Apollo v5), TypeORM 1.x, CQRS     |
-| Frontend  | Next.js 16 (App Router), Tailwind CSS v4, Apollo Client v4, Shadcn UI |
-| Database  | PostgreSQL 15                                                     |
-| Cache     | Redis (Alpine)                                                    |
-| Auth      | Passport JWT (RS256)                                              |
-| Runtime   | Node 20, Yarn 1.x                                                 |
-| Infra     | Docker Compose (local dev)                                        |
+| Layer    | Technology                                                            |
+| -------- | --------------------------------------------------------------------- |
+| Monorepo | Nx 22                                                                 |
+| Backend  | NestJS 11, Express 5, GraphQL (Apollo v5), TypeORM 1.x, CQRS          |
+| Frontend | Next.js 16 (App Router), Tailwind CSS v4, Apollo Client v4, Shadcn UI |
+| Database | PostgreSQL 15                                                         |
+| Cache    | Redis (Alpine)                                                        |
+| Auth     | Passport JWT (RS256)                                                  |
+| Runtime  | Node 20, Yarn 1.x                                                     |
+| Infra    | Docker Compose (local dev)                                            |
 
 **Key ecosystem packages:**
 
-| Package                         | Purpose                                              |
-| ------------------------------- | ---------------------------------------------------- |
-| `nestjs-typed-cqrs`             | Type-safe `CommandBus` / `QueryBus` — no more `any` |
-| `nestjs-dev-utilities`          | `AbstractEntity` base class (id, timestamps, soft-delete) |
-| `@ptc-org/nestjs-query-core`    | `Query<T>` filter/sort/paging types                 |
-| `@ptc-org/nestjs-query-graphql` | `@FilterableField`, `QueryArgsType`, `ConnectionType` (cursor pagination) |
-| `@ptc-org/nestjs-query-typeorm` | `TypeOrmQueryService` + `FilterQueryBuilder`        |
-| `typeorm-naming-strategies`     | Snake-case column names automatically               |
-| `@jorgebodega/typeorm-seeding`  | Database seeders                                     |
+| Package                         | Purpose                                                                                 |
+| ------------------------------- | --------------------------------------------------------------------------------------- |
+| `nestjs-typed-cqrs`             | Type-safe `CommandBus` / `QueryBus` — no more `any`                                     |
+| `nestjs-dev-utilities`          | `AbstractEntity` base class (id, timestamps, soft-delete)                               |
+| `@ptc-org/nestjs-query-core`    | `Query<T>` filter/sort/paging types                                                     |
+| `@ptc-org/nestjs-query-graphql` | `@FilterableField`, `QueryArgsType`, `ConnectionType` (cursor pagination)               |
+| `@ptc-org/nestjs-query-typeorm` | `TypeOrmQueryService` + `FilterQueryBuilder`                                            |
+| `typeorm-naming-strategies`     | Snake-case column names automatically                                                   |
+| `@jorgebodega/typeorm-seeding`  | Database seeders                                                                        |
 | `@as-integrations/express5`     | Apollo Server v5 → Express 5 adapter (required — the Express 4 adapter is incompatible) |
 
 ---
@@ -252,9 +252,9 @@ ADMIN_JWT_EXPIRATION_TIME=8h
 
 ## Scripts
 
-| Command                              | What it does                                    |
-| ------------------------------------ | ----------------------------------------------- |
-| `yarn api:dev`                       | Start user API in watch mode (:3333)            |
+| Command                              | What it does                                   |
+| ------------------------------------ | ---------------------------------------------- |
+| `yarn api:dev`                       | Start user API in watch mode (:3333)           |
 | `yarn api:build`                     | Production build of the user API               |
 | `yarn api:test`                      | Run user API unit tests                        |
 | `yarn api:e2e`                       | Run user API end-to-end tests                  |
@@ -282,13 +282,13 @@ ADMIN_JWT_EXPIRATION_TIME=8h
 
 Adminer (web UI) is available at `http://localhost:8080` once Docker is running.
 
-| Field    | Value              |
-| -------- | ------------------ |
-| System   | PostgreSQL         |
-| Server   | `postgres`         |
-| Username | `postgres`         |
-| Password | `postgres`         |
-| Database | `enterprise_todo`  |
+| Field    | Value             |
+| -------- | ----------------- |
+| System   | PostgreSQL        |
+| Server   | `postgres`        |
+| Username | `postgres`        |
+| Password | `postgres`        |
+| Database | `enterprise_todo` |
 
 Migrations are managed with TypeORM — `synchronize` is always `false` in all environments.
 
