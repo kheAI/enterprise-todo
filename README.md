@@ -23,12 +23,12 @@ This codebase is built step-by-step across 24 tutorials. Each part introduces on
 | 6109 | Case Study 2: Todo Module           | FK relations, auth, DataLoader, N+1 prevention                        |
 | 6110 | Testing — Unit & E2E                | Jest, real test DB, 3-spec-file pattern                               |
 | 6111 | Queues & Real-Time                  | Bull, Redis PubSub, GraphQL subscriptions                             |
-| 6112 | Git Workflow, CI/CD & Deployment    | Conventional commits, Husky, GitHub Actions, Docker                   |
+| 6112 | Git Commit Standards & CI/CD Pipeline | Selective staging, Commitizen, Husky, branch protection, GitHub Actions, Docker, ECS |
 | 6113 | Multi-Tenancy & RBAC                | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth             |
 | 6114 | Claude Code AI Development Layer    | `.claude/`, GitNexus, Graphify, RTK                                   |
-| 6115 | GitHub MCP & Project Management     | GitHub MCP, ClickUp/Slack integration                                 |
+| 6115 | MCP Setup: GitHub, ClickUp & Lark  | GitHub MCP, ClickUp (primary PM), Lark (team comms / alternative)    |
 | 6116 | Memory & Knowledge Graphs           | Graphify, gitnexus, code intelligence                                 |
-| 6117 | Tech Lead SDLC Daily Workflow       | PR flow, code review, release checklist                               |
+| 6117 | Tech Lead SDLC & Daily Workflow     | Ticket-to-production case study, code review, ADRs, onboarding       |
 | 6118 | Production Hardening                | Joi env validation, typed config, Helmet, throttling, ExceptionFilter |
 | 6119 | Extended Auth                       | Email service, secured tokens, password reset, 2FA TOTP               |
 | 6120 | Advanced Data Patterns              | Column transformers, audit columns, running numbers, `libs/core`      |
