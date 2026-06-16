@@ -76,7 +76,7 @@ PostgreSQL
 
 **Tailwind CSS v4 — no `tailwind.config.js`, new PostCSS plugin** — shadcn v4 (`base-nova` style) requires Tailwind v4. Use `@import "tailwindcss"` in CSS (not `@tailwind base/components/utilities`). PostCSS uses `@tailwindcss/postcss` (not `tailwindcss`). No `tailwind.config.js` — v4 auto-detects content.
 
-**Apollo Client v4 — `ApolloProvider` moved** — Import from `@apollo/client/react`, not `@apollo/client`. The core package (`@apollo/client/core`) does not export React components.
+**Apollo Client v4 — all React APIs moved** — Turbopack resolves `@apollo/client` to its core package which has no React exports. Import all React APIs from `@apollo/client/react`: `ApolloProvider`, `useQuery`, `useMutation`, `useSubscription`. Core utilities (`ApolloClient`, `InMemoryCache`, `createHttpLink`, `from`, `gql`) stay in `@apollo/client`.
 
 **`@nx/next` uses `dev` target, not `serve`** — `npx nx serve web` fails. Use `yarn web:dev` (`nx dev web`). The `@nx/next` plugin registers `devTargetName: "dev"` in `nx.json`.
 

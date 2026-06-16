@@ -252,9 +252,9 @@ This project uses Webpack. At runtime everything is compiled into `main.js` — 
 
 Anonymous mutations returning a scalar (e.g. `mutation { deleteTodo(id: 1) }`) trigger a spurious "syntax error: invalid number" in Apollo Studio Sandbox. The API itself is correct — confirm with curl. Fix: name the operation: `mutation DeleteTodo { deleteTodo(id: 1) }`.
 
-**Apollo Client v4: `ApolloProvider` moved**
+**Apollo Client v4: all React APIs moved to `@apollo/client/react`**
 
-`ApolloProvider` is no longer exported from `@apollo/client` in v4 — it moved to `@apollo/client/react`. Import it as: `import { ApolloProvider } from '@apollo/client/react'`.
+Turbopack resolves `@apollo/client` to its core package which exports no React APIs. Import all React APIs from `@apollo/client/react`: `ApolloProvider`, `useQuery`, `useMutation`, `useSubscription`. Core utilities (`ApolloClient`, `InMemoryCache`, `createHttpLink`, `from`, `gql`) stay in `@apollo/client`.
 
 **Tailwind CSS v4: no `tailwind.config.js`, new PostCSS plugin**
 
