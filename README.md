@@ -2,7 +2,7 @@
 
 An enterprise-grade todo application built as a learning project — demonstrating how to migrate from Meteor to a modern NestJS + Next.js monorepo stack.
 
-This repo is also a **production-ready fullstack scaffold**, plus a Next.js frontend and AI-assisted dev workflow.
+This repo is also a **production-ready fullstack scaffold** covering every pattern needed for an enterprise-grade NestJS project — with a Next.js frontend, AI-assisted dev workflow, and a 24-part tutorial series to build it from scratch.
 
 ---
 
@@ -33,6 +33,9 @@ This codebase is built step-by-step across 21 tutorials. Each part introduces on
 | 6119 | Extended Auth                       | Email service, secured tokens, password reset, 2FA TOTP               |
 | 6120 | Advanced Data Patterns              | Column transformers, audit columns, running numbers, `libs/core`      |
 | 6121 | Dual-App Monorepo                   | `portal-api`, `RequestPlatformInterceptor`, platform JWT claim        |
+| 6122 | Media Library                       | S3 presigned uploads, magic bytes, Bull processor, CloudFront CDN     |
+| 6123 | Affiliate & Referral Tree           | Materialized path, downline queries, referral stats                   |
+| 6124 | Production Deployment               | ECS Fargate, RDS, ElastiCache, Secrets Manager, zero-downtime CD      |
 
 ---
 
@@ -236,6 +239,14 @@ WEB_URL=http://localhost:3000
 # ── Two-Factor Auth ───────────────────────────────────────────
 # Dev/test bypass only — NEVER set in staging or production
 TWOFA_BYPASS_PASSWORD=
+
+# ── Media Library (S3 + CloudFront) ──────────────────────────
+# Local dev: use LocalStack or point directly at S3
+AWS_REGION=ap-southeast-1
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+S3_BUCKET=enterprise-todo-media-dev
+CDN_BASE_URL=https://d1abc.cloudfront.net
 
 # ── Portal API ────────────────────────────────────────────────
 PROJECT_PORTAL_PORT=3334
