@@ -45,7 +45,7 @@ enterprise-todo/
 │   │       ├── migrations/     ← TypeORM migration files
 │   │       └── seeders/        ← Sample data seeders
 │   ├── api-e2e/                ← API end-to-end tests
-│   ├── web/                    ← Next.js frontend (:4200)
+│   ├── web/                    ← Next.js frontend (:3000)
 │   └── web-e2e/                ← Frontend end-to-end tests
 ├── libs/
 │   └── contracts/              ← Shared TypeScript types (api + web)

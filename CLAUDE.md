@@ -24,7 +24,7 @@ apps/api/         ← NestJS backend (GraphQL :3333)
   src/modules/    ← Feature modules (todo, user, health)
   src/migrations/ ← TypeORM migrations
   src/seeders/
-apps/web/         ← Next.js frontend (:4200)
+apps/web/         ← Next.js frontend (:3000)
 libs/contracts/   ← Shared TS types (api + web)
 ```
 
