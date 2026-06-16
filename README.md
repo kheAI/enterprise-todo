@@ -27,7 +27,7 @@ This codebase is built step-by-step across 24 tutorials. Each part introduces on
 | 6113 | Multi-Tenancy & RBAC                | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth             |
 | 6114 | Claude Code AI Development Layer    | `.claude/`, GitNexus, Graphify, RTK                                   |
 | 6115 | MCP Setup: GitHub, ClickUp & Lark  | GitHub MCP, ClickUp (primary PM), Lark (team comms / alternative)    |
-| 6116 | Memory & Knowledge Graphs           | Graphify, gitnexus, code intelligence                                 |
+| 6116 | Memory, Knowledge Graphs & Code Intelligence | Persistent memory system, graphify full reference, gitnexus full reference, team knowledge culture |
 | 6117 | Tech Lead SDLC & Daily Workflow     | Ticket-to-production case study, code review, ADRs, onboarding       |
 | 6118 | Production Hardening                | Joi env validation, typed config, Helmet, throttling, ExceptionFilter |
 | 6119 | Extended Auth                       | Email service, secured tokens, password reset, 2FA TOTP               |

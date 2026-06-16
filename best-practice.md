@@ -24,7 +24,8 @@
 | Production Docker (multi-stage Dockerfile)                                      | 6112                    |
 | GitHub Actions CI pipeline                                                      | 6112                    |
 | Conventional commits + Husky + lint-staged                                      | 6112                    |
-| AI tooling layer (`.claude/`, graphify, gitnexus)                               | 6114                    |
+| AI tooling layer (`.claude/`, agents, MCP, 6-phase workflow)                    | 6114                    |
+| Persistent memory system, graphify deep-dive, gitnexus deep-dive, team knowledge culture | 6116             |
 | Joi env validation + typed config mapper (`AppConfig`)                          | 6118                    |
 | Global `LoggingInterceptor`, Helmet, rate limiting, ExceptionFilter             | 6118                    |
 | `docker-compose.dev.arm.yml`                                                    | 6118                    |
@@ -80,7 +81,7 @@
 | Full Next.js frontend                           | ⭐ Ahead    | 6106           |
 | Tailwind v4 + Shadcn UI                         | ⭐ Ahead    | 6106           |
 | 24-part tutorial series                         | ⭐ Ahead    | 6101–6124      |
-| AI dev tooling (GitNexus + Graphify + RTK)      | ⭐ Ahead    | 6114           |
+| AI dev tooling (GitNexus + Graphify + RTK)      | ⭐ Ahead    | 6114, 6116     |
 | `@IsUndefined()` partial updates                | 🟢 In rules | —              |
 | `CqrsModule` only in AppModule                  | 🟢 Correct  | —              |
 | RS256 JWT                                       | 🟢          | 6107           |
