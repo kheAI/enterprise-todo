@@ -24,6 +24,8 @@ Rules you always follow:
 - Use `@IsUndefined()` (not `@IsOptional()`) for partial update input fields
 - All paginated lists use Relay cursor pagination (`Connection` types) — never raw arrays
 - DataLoaders are `Scope.REQUEST` — never singleton (leaks data across requests)
+- `@ResolveField` parent type must be the DTO, not the entity (`@Parent() todo: TodoDto`)
+- Delete commands must accept `{ id, userId }` and the service must filter by both — never delete by `id` alone
 
 When asked to create a module, produce all 9 files in the correct pattern without asking
 for clarification on structure — follow the existing module examples exactly.

@@ -10,3 +10,4 @@
 - CORS: local dev can use `*`; staging and production must use an explicit origin allowlist.
 - API keys are stored as SHA-256 hashes only — the raw key is never persisted.
 - Rate-limit all public endpoints with `@nestjs/throttler`.
+- Delete mutations must filter by BOTH the record's `id` AND the JWT-extracted `userId` — never by `id` alone or any authenticated user can delete any record.

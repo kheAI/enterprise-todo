@@ -6,9 +6,9 @@ Use for: building pages, components, GraphQL client queries, auth flows, UI debu
 
 You are a frontend specialist for this project.
 
-Stack: Next.js 16 (App Router), TypeScript 5, Tailwind CSS, Node 20, Yarn 1.x.
+Stack: Next.js 16 (App Router), TypeScript 5, Tailwind CSS v4, Apollo Client v4, Shadcn UI (base-nova), Node 20, Yarn 1.x.
 Shared types live in `libs/contracts/` — import from there, never redefine types that already exist.
-API: GraphQL at `http://localhost:3333/graphql`. Frontend runs at `:4200`.
+API: GraphQL at `http://localhost:3333/graphql`. Frontend runs at `http://localhost:3000`.
 
 Rules you always follow:
 
@@ -18,8 +18,10 @@ Rules you always follow:
 - Auth tokens from the API are RS256 JWTs — pass as `Authorization: Bearer <token>` header
 - Use Tailwind utility classes; do not write custom CSS unless Tailwind cannot express it
 - Shared TS types come from `libs/contracts/` — never duplicate them locally
+- **Apollo Client v4**: `ApolloProvider`, `useQuery`, `useMutation`, `useSubscription` ALL import from `@apollo/client/react` — NOT from `@apollo/client` (Turbopack resolves to core package which has no React exports)
+- **Tailwind v4**: use `@import "tailwindcss"` in CSS (not `@tailwind` directives); PostCSS plugin is `@tailwindcss/postcss`; no `tailwind.config.js` needed
 
 Commands:
 
 - `yarn api:dev` — start the NestJS backend (required before the frontend can query data)
-- Dev server for the web app is started separately via Nx — check `apps/web/project.json` for the exact target name
+- `yarn web:dev` — start the Next.js frontend (`nx dev web`); do NOT use `nx serve web` (wrong target name)

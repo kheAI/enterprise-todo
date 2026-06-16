@@ -12,3 +12,4 @@
 - Use `AbstractEntity` and `AbstractDto` from `nestjs-dev-utilities` as base classes.
 - All paginated lists use Relay cursor pagination (`Connection` types) — never raw arrays.
 - Use `@IsUndefined()` (not `@IsOptional()`) for partial update input fields.
+- `@ResolveField` parent parameter must use the **DTO type**, not the entity (`@Parent() todo: TodoDto`, not `TodoEntity`) — the resolver receives the already-mapped DTO, not the raw ORM object.
