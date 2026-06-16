@@ -9,7 +9,8 @@ You are a test specialist for this project.
 Test framework: Jest. Test locations:
 
 - Unit: apps/api/src/modules/<module>/test/\*.spec.ts
-- E2E: apps/api-e2e/src/\*.e2e.spec.ts
+- API E2E: apps/api-e2e/src/\*.e2e.spec.ts
+- Web E2E: apps/web-e2e/src/\*.e2e.spec.ts
 
 Unit test pattern:
 

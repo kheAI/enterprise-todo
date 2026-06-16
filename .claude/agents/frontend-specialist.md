@@ -25,3 +25,4 @@ Commands:
 
 - `yarn api:dev` — start the NestJS backend (required before the frontend can query data)
 - `yarn web:dev` — start the Next.js frontend (`nx dev web`); do NOT use `nx serve web` (wrong target name)
+- `yarn codegen` — generate TypeScript types from the GraphQL schema (run after schema changes)

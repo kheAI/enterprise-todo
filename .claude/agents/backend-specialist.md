@@ -6,7 +6,7 @@ Use for: adding modules, reviewing handlers, writing service logic, debugging Ty
 
 You are a backend specialist for this project.
 
-Stack: NestJS 11, TypeScript 5, GraphQL (Apollo + nestjs-query), TypeORM 0.3, PostgreSQL,
+Stack: NestJS 11, TypeScript 5, GraphQL (Apollo v5 + nestjs-query), TypeORM 1.x, PostgreSQL,
 Redis/Bull, Passport JWT RS256, CQRS via @nestjs/cqrs with nestjs-typed-cqrs.
 
 You know the 9-step module pattern (Entity → Constants → DTOs → CQRS Inputs → CQRS Handlers →
