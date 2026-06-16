@@ -15,27 +15,39 @@ Communicate efficiently. Omit pleasantries, filler words, and narrative summarie
 
 **What it is:** Enterprise-grade todo app — learning project migrating Meteor → NestJS + Next.js monorepo
 **Stack:** Nx 22, NestJS 11, GraphQL (Apollo v5), TypeORM 1.x, PostgreSQL 15, Redis, Passport JWT RS256, Next.js 16 (App Router), Tailwind CSS v4, Shadcn UI (base-nova), Apollo Client v4, Node 20, Yarn 1.x
-**Key packages:** `nestjs-typed-cqrs` (type-safe buses), `nestjs-dev-utilities` (AbstractEntity), `@ptc-org/nestjs-query-typeorm` (FilterQueryBuilder), `typeorm-naming-strategies` (snake_case), `@jorgebodega/typeorm-seeding`, `@apollo/client` v4 (frontend GraphQL), `@tailwindcss/postcss` (Tailwind v4 PostCSS plugin)
+**Key packages:** `nestjs-typed-cqrs` (type-safe buses), `nestjs-dev-utilities` (AbstractEntity), `@ptc-org/nestjs-query-core` (Query/filter/sort/paging types), `@ptc-org/nestjs-query-graphql` (@FilterableField, ConnectionType), `@ptc-org/nestjs-query-typeorm` (FilterQueryBuilder), `typeorm-naming-strategies` (snake_case), `@jorgebodega/typeorm-seeding`, `@as-integrations/express5` (Apollo v5 → Express 5 adapter — required), `@apollo/client` v4 (frontend GraphQL), `@tailwindcss/postcss` (Tailwind v4 PostCSS plugin)
 
 ## Structure
 
 ```
-apps/api/         ← NestJS backend (GraphQL :3333)
-  src/modules/    ← Feature modules (todo, user, health)
+apps/api/         ← NestJS user API (GraphQL :3333)
+  src/modules/    ← Feature modules (todo, user, health, auth, email, etc.)
   src/migrations/ ← TypeORM migrations
   src/seeders/
+apps/api-e2e/     ← API end-to-end tests
+apps/portal-api/  ← NestJS admin portal API (GraphQL :3334)
+  src/modules/    ← portal-auth, portal-health
 apps/web/         ← Next.js frontend (:3000)
-libs/contracts/   ← Shared TS types (api + web)
+apps/web-e2e/     ← Frontend end-to-end tests
+libs/contracts/   ← Shared TS types (api + portal-api + web)
+libs/core/        ← Shared config: Joi schema, AppConfig, constants, RequestPlatformInterceptor
 ```
 
 ## Commands
 
 ```bash
-yarn api:dev                          # Start NestJS watch mode
+yarn api:dev                          # Start user API in watch mode (:3333)
 yarn api:build                        # Production build
 yarn api:test                         # Unit tests
 yarn api:e2e                          # End-to-end tests
-yarn docker:dev                       # Start Postgres :5432, Redis :6379, Adminer :8080
+yarn portal:dev                       # Start admin portal API in watch mode (:3334)
+yarn portal:build                     # Production build of portal API
+yarn portal:test                      # Run portal API unit tests
+yarn web:dev                          # Start Next.js frontend in watch mode (:3000)
+yarn codegen                          # Generate TypeScript types from GraphQL schema
+yarn format                           # Run Prettier across all files
+yarn docker:dev                       # Start Postgres :5432, Redis :6379, Adminer :8080 (Intel/Linux)
+yarn docker:dev:arm                   # Start Postgres, Redis, Adminer (Apple Silicon)
 yarn docker:stop                      # Stop containers
 yarn api:migration:generate <path>    # Generate migration from entity diff
 yarn api:migration:run                # Apply pending migrations
@@ -43,6 +55,8 @@ yarn api:migration:revert             # Revert last migration
 yarn api:seed:run                     # Truncate + reseed
 yarn lint                             # Lint all
 yarn lint:fix                         # Lint + autofix
+yarn dep                              # Open Nx project dependency graph
+yarn cz                               # Commit using Commitizen (conventional commits)
 ```
 
 ## Architecture
@@ -89,6 +103,8 @@ PostgreSQL
 **`PortalJwtStrategy` must NOT be registered in `apps/api`** — registering both strategies in the same app defeats platform separation. `PortalJwtStrategy` (named `'portal-jwt'`) belongs exclusively in `apps/portal-api`. If it leaks into `apps/api`, portal tokens can authenticate against user endpoints.
 
 **JWT `platform` claim is required** — `AccessTokenFactory` stamps `platform: 'user'`; `PortalAccessTokenFactory` stamps `platform: 'portal'`. `RequestPlatformInterceptor` rejects any token whose `platform` doesn't match the receiving app with a 403.
+
+**Apollo Sandbox: name mutations that return `Boolean`** — Anonymous mutations returning a scalar (e.g. `mutation { deleteTodo(id: 1) }`) trigger a spurious "syntax error: invalid number" in Apollo Studio Sandbox. The API is correct — confirm with curl. Fix: name the operation: `mutation DeleteTodo { deleteTodo(id: 1) }`.
 
 ## AI Tooling
 
