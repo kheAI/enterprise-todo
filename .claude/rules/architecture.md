@@ -6,7 +6,7 @@
 - `CqrsModule.forRoot()` is called only in `AppModule`. Feature modules do NOT import `CqrsModule` — buses are global.
 - Service methods must be entity-qualified (`findOneTodo`, `countTodo`) to avoid clashing with `TypeOrmQueryService`'s interface.
 - Never import across app boundaries (`apps/api` cannot import from other apps).
-- Shared types live in `libs/contracts/`. Future: `libs/core` (constants/enums), `libs/ai-providers` (AI abstractions).
+- Shared types live in `libs/contracts/`. Shared config (Joi schema, AppConfig, constants, `RequestPlatformInterceptor`) lives in `libs/core/`. Future: `libs/ai-providers` (AI abstractions).
 - Every domain entity MUST carry `tenantId` FK and filter by it in every CQRS handler.
 - Use `TypedQuery<T>` and `TypedCommand<T>` from `nestjs-typed-cqrs` — no untyped buses.
 - Use `AbstractEntity` and `AbstractDto` from `nestjs-dev-utilities` as base classes.
