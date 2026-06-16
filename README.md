@@ -8,7 +8,7 @@ An enterprise-grade todo application built as a learning project — demonstrati
 | --------- | ----------------------------------------------------------------- |
 | Monorepo  | Nx 22                                                             |
 | Backend   | NestJS 11, Express 5, GraphQL (Apollo v5), TypeORM 1.x, CQRS     |
-| Frontend  | Next.js 16 (App Router), Tailwind CSS                            |
+| Frontend  | Next.js 16 (App Router), Tailwind CSS v4, Apollo Client v4, Shadcn UI |
 | Database  | PostgreSQL 15                                                     |
 | Cache     | Redis (Alpine)                                                    |
 | Auth      | Passport JWT (RS256)                                              |
@@ -112,6 +112,13 @@ yarn api:dev
 # GraphQL:  http://localhost:3333/graphql
 ```
 
+**8. Start the frontend dev server**
+
+```bash
+yarn web:dev
+# Web: http://localhost:3000
+```
+
 ---
 
 ## Environment Variables
@@ -162,7 +169,11 @@ JWT_REFRESH_PUBLIC_KEY=
 | `yarn api:build`                     | Production build of the API                     |
 | `yarn api:test`                      | Run API unit tests                              |
 | `yarn api:e2e`                       | Run API end-to-end tests                        |
-| `yarn docker:dev`                    | Start Postgres, Redis, Adminer containers       |
+| `yarn web:dev`                       | Start Next.js frontend in watch mode            |
+| `yarn codegen`                       | Generate TypeScript types from GraphQL schema   |
+| `yarn format`                        | Run Prettier across all files                   |
+| `yarn docker:dev`                    | Start Postgres, Redis, Adminer (Intel/Linux)    |
+| `yarn docker:dev:arm`                | Start Postgres, Redis, Adminer (Apple Silicon)  |
 | `yarn docker:stop`                   | Stop all containers                             |
 | `yarn api:migration:generate <path>` | Generate a new migration from entity diff       |
 | `yarn api:migration:run`             | Apply all pending migrations                    |
@@ -171,6 +182,7 @@ JWT_REFRESH_PUBLIC_KEY=
 | `yarn lint`                          | Lint all projects                               |
 | `yarn lint:fix`                      | Lint and auto-fix all projects                  |
 | `yarn dep`                           | Open Nx project dependency graph                |
+| `yarn cz`                            | Commit using Commitizen (conventional commits)  |
 
 ---
 
@@ -239,3 +251,15 @@ This project uses Webpack. At runtime everything is compiled into `main.js` — 
 **Apollo Sandbox: name mutations that return `Boolean`**
 
 Anonymous mutations returning a scalar (e.g. `mutation { deleteTodo(id: 1) }`) trigger a spurious "syntax error: invalid number" in Apollo Studio Sandbox. The API itself is correct — confirm with curl. Fix: name the operation: `mutation DeleteTodo { deleteTodo(id: 1) }`.
+
+**Apollo Client v4: `ApolloProvider` moved**
+
+`ApolloProvider` is no longer exported from `@apollo/client` in v4 — it moved to `@apollo/client/react`. Import it as: `import { ApolloProvider } from '@apollo/client/react'`.
+
+**Tailwind CSS v4: no `tailwind.config.js`, new PostCSS plugin**
+
+This project uses Tailwind v4 (required by shadcn v4 `base-nova` style). Key differences from v3: use `@import "tailwindcss"` in CSS (not `@tailwind base/components/utilities`), use `@tailwindcss/postcss` in `postcss.config.js` (not `tailwindcss`), and no `tailwind.config.js` (v4 auto-detects content).
+
+**`@nx/next` uses `dev` target, not `serve`**
+
+Running `npx nx serve web` fails — the `@nx/next` plugin registers the target as `dev`. Use `yarn web:dev` or `npx nx dev web`.

@@ -14,8 +14,8 @@ Communicate efficiently. Omit pleasantries, filler words, and narrative summarie
 ## Project Overview
 
 **What it is:** Enterprise-grade todo app — learning project migrating Meteor → NestJS + Next.js monorepo
-**Stack:** Nx 22, NestJS 11, GraphQL (Apollo v5), TypeORM 1.x, PostgreSQL 15, Redis, Passport JWT RS256, Next.js 16 (App Router), Tailwind CSS, Node 20, Yarn 1.x
-**Key packages:** `nestjs-typed-cqrs` (type-safe buses), `nestjs-dev-utilities` (AbstractEntity), `@ptc-org/nestjs-query-typeorm` (FilterQueryBuilder), `typeorm-naming-strategies` (snake_case), `@jorgebodega/typeorm-seeding`
+**Stack:** Nx 22, NestJS 11, GraphQL (Apollo v5), TypeORM 1.x, PostgreSQL 15, Redis, Passport JWT RS256, Next.js 16 (App Router), Tailwind CSS v4, Shadcn UI (base-nova), Apollo Client v4, Node 20, Yarn 1.x
+**Key packages:** `nestjs-typed-cqrs` (type-safe buses), `nestjs-dev-utilities` (AbstractEntity), `@ptc-org/nestjs-query-typeorm` (FilterQueryBuilder), `typeorm-naming-strategies` (snake_case), `@jorgebodega/typeorm-seeding`, `@apollo/client` v4 (frontend GraphQL), `@tailwindcss/postcss` (Tailwind v4 PostCSS plugin)
 
 ## Structure
 
@@ -73,6 +73,12 @@ PostgreSQL
 **No glob entity patterns** — Project uses Webpack; at runtime everything is `main.js`, no separate `.entity.js` files. Globs like `**/*.entity{.ts,.js}` find nothing. Every entity must be explicitly imported and listed in `AppModule`'s `entities[]`.
 
 **All related entities must be registered** — If `TodoEntity` has `@ManyToOne(() => UserEntity)`, then `UserEntity` must be in `AppModule`'s `entities[]` even if there's no `UserModule` yet. Omitting causes `EntityMetadataNotFoundError` at startup.
+
+**Tailwind CSS v4 — no `tailwind.config.js`, new PostCSS plugin** — shadcn v4 (`base-nova` style) requires Tailwind v4. Use `@import "tailwindcss"` in CSS (not `@tailwind base/components/utilities`). PostCSS uses `@tailwindcss/postcss` (not `tailwindcss`). No `tailwind.config.js` — v4 auto-detects content.
+
+**Apollo Client v4 — `ApolloProvider` moved** — Import from `@apollo/client/react`, not `@apollo/client`. The core package (`@apollo/client/core`) does not export React components.
+
+**`@nx/next` uses `dev` target, not `serve`** — `npx nx serve web` fails. Use `yarn web:dev` (`nx dev web`). The `@nx/next` plugin registers `devTargetName: "dev"` in `nx.json`.
 
 ## AI Tooling
 
