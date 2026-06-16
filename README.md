@@ -10,32 +10,32 @@ This repo is also a **production-ready fullstack scaffold** covering every patte
 
 This codebase is built step-by-step across 24 tutorials. Each part introduces one layer of the stack with working code and Meteor migration context.
 
-| Part | Title                               | Key concepts                                                          |
-| ---- | ----------------------------------- | --------------------------------------------------------------------- |
-| 6101 | Meteor → NestJS: The Migration Case | Monorepo setup, Nx 22, project structure                              |
-| 6102 | Environment & Docker Setup          | Docker Compose, `.env`, Adminer                                       |
-| 6103 | TypeScript & NestJS DI              | Modules, providers, DI fundamentals                                   |
-| 6104 | TypeORM Entities & Migrations       | Entities, `AbstractEntity`, migrations                                |
-| 6105 | CQRS Pattern                        | Commands, queries, handlers, typed buses                              |
-| 6106 | GraphQL API + Next.js Frontend      | Apollo Server v5, resolvers, Apollo Client v4                         |
-| 6107 | Authentication — Guards & Security  | JWT RS256, `AuthJwtGuard`, `@CurrentUser()`, bcrypt                   |
-| 6108 | Case Study 1: Tag Module            | Full 9-step build walkthrough                                         |
-| 6109 | Case Study 2: Todo Module           | FK relations, auth, DataLoader, N+1 prevention                        |
-| 6110 | Testing — Unit & E2E                | Jest, real test DB, 3-spec-file pattern                               |
-| 6111 | Queues & Real-Time                  | Bull, Redis PubSub, GraphQL subscriptions                             |
-| 6112 | Git Commit Standards & CI/CD Pipeline | Selective staging, Commitizen, Husky, branch protection, GitHub Actions, Docker, ECS |
-| 6113 | Multi-Tenancy & RBAC                | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth             |
-| 6114 | Claude Code AI Development Layer    | `.claude/`, GitNexus, Graphify, RTK                                   |
-| 6115 | MCP Setup: GitHub, ClickUp & Lark  | GitHub MCP, ClickUp (primary PM), Lark (team comms / alternative)    |
+| Part | Title                                        | Key concepts                                                                                       |
+| ---- | -------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 6101 | Meteor → NestJS: The Migration Case          | Monorepo setup, Nx 22, project structure                                                           |
+| 6102 | Environment & Docker Setup                   | Docker Compose, `.env`, Adminer                                                                    |
+| 6103 | TypeScript & NestJS DI                       | Modules, providers, DI fundamentals                                                                |
+| 6104 | TypeORM Entities & Migrations                | Entities, `AbstractEntity`, migrations                                                             |
+| 6105 | CQRS Pattern                                 | Commands, queries, handlers, typed buses                                                           |
+| 6106 | GraphQL API + Next.js Frontend               | Apollo Server v5, resolvers, Apollo Client v4                                                      |
+| 6107 | Authentication — Guards & Security           | JWT RS256, `AuthJwtGuard`, `@CurrentUser()`, bcrypt                                                |
+| 6108 | Case Study 1: Tag Module                     | Full 9-step build walkthrough                                                                      |
+| 6109 | Case Study 2: Todo Module                    | FK relations, auth, DataLoader, N+1 prevention                                                     |
+| 6110 | Testing — Unit & E2E                         | Jest, real test DB, 3-spec-file pattern                                                            |
+| 6111 | Queues & Real-Time                           | Bull, Redis PubSub, GraphQL subscriptions                                                          |
+| 6112 | Git Commit Standards & CI/CD Pipeline        | Selective staging, Commitizen, Husky, branch protection, GitHub Actions, Docker, ECS               |
+| 6113 | Multi-Tenancy & RBAC                         | `tenantId`, `TenantGuard`, `ACPermissionGuard`, dual-auth                                          |
+| 6114 | Claude Code AI Development Layer             | `.claude/`, GitNexus, Graphify, RTK                                                                |
+| 6115 | MCP Setup: GitHub, ClickUp & Lark            | GitHub MCP, ClickUp (primary PM), Lark (team comms / alternative)                                  |
 | 6116 | Memory, Knowledge Graphs & Code Intelligence | Persistent memory system, graphify full reference, gitnexus full reference, team knowledge culture |
-| 6117 | Tech Lead SDLC & Daily Workflow     | Ticket-to-production case study, code review, ADRs, onboarding       |
-| 6118 | Production Hardening                | Joi env validation, typed config, Helmet, throttling, ExceptionFilter |
-| 6119 | Extended Auth                       | Email service, secured tokens, password reset, 2FA TOTP               |
-| 6120 | Advanced Data Patterns              | Column transformers, audit columns, running numbers, `libs/core`      |
-| 6121 | Dual-App Monorepo                   | `portal-api`, `RequestPlatformInterceptor`, platform JWT claim        |
-| 6122 | Media Library                       | S3 presigned uploads, magic bytes, Bull processor, CloudFront CDN     |
-| 6123 | Affiliate & Referral Tree           | Materialized path, downline queries, referral stats                   |
-| 6124 | Production Deployment               | ECS Fargate, RDS, ElastiCache, Secrets Manager, zero-downtime CD      |
+| 6117 | Tech Lead SDLC & Daily Workflow              | Ticket-to-production case study, code review, ADRs, onboarding                                     |
+| 6118 | Production Hardening                         | Joi env validation, typed config, Helmet, throttling, ExceptionFilter                              |
+| 6119 | Extended Auth                                | Email service, secured tokens, password reset, 2FA TOTP                                            |
+| 6120 | Advanced Data Patterns                       | Column transformers, audit columns, running numbers, `libs/core`                                   |
+| 6121 | Dual-App Monorepo                            | `portal-api`, `RequestPlatformInterceptor`, platform JWT claim                                     |
+| 6122 | Media Library                                | S3 presigned uploads, magic bytes, Bull processor, CloudFront CDN                                  |
+| 6123 | Affiliate & Referral Tree                    | Materialized path, downline queries, referral stats                                                |
+| 6124 | Production Deployment                        | ECS Fargate, RDS, ElastiCache, Secrets Manager, zero-downtime CD                                   |
 
 ---
 
